@@ -2,6 +2,7 @@
 var ControlesLayer = cc.Layer.extend({
     spriteBotonSaltar:null,
     etiquetaMonedas:null,
+    etiquetaVidas:null,
     monedas:0,
     ctor:function () {
         this._super();
@@ -12,6 +13,12 @@ var ControlesLayer = cc.Layer.extend({
         this.etiquetaMonedas.setPosition(cc.p(size.width - 90, size.height - 20));
         this.etiquetaMonedas.fillStyle = new cc.Color(0, 0, 0, 0);
         this.addChild(this.etiquetaMonedas);
+
+        // Contador Vidas
+        this.etiquetaVidas = new cc.LabelTTF("Vidas: 3", "Helvetica", 20);
+        this.etiquetaVidas.setPosition(cc.p(size.width - size.width+90, size.height - 20));
+        this.etiquetaVidas.fillStyle = new cc.Color(0, 0, 0, 0);
+        this.addChild(this.etiquetaVidas);
 
 
         // BotonSaltar
@@ -50,6 +57,8 @@ var ControlesLayer = cc.Layer.extend({
           this.monedas++;
           this.etiquetaMonedas.setString("Monedas: " + this.monedas);
 
-      }
+    },actualizarVidas:function(vidas){
+        this.etiquetaVidas.setString("Vidas: " + vidas);
+    }
 });
 

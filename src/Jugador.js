@@ -9,7 +9,7 @@ var Jugador = cc.Class.extend({
     sprite:null,
     shape:null,
     body:null,
-    vidas:2,
+    vidas:3,
 ctor:function (gameLayer, posicion) {
     this.gameLayer = gameLayer;
 

@@ -4,6 +4,7 @@ var tipoMoneda = 3;
 var tipoMuro = 4;
 var tipoEnemigo = 5;
 var tipoMeta = 6;
+var nivelActual = 1;
 
 var GameLayer = cc.Layer.extend({
     _emitter: null,
@@ -116,15 +117,13 @@ var GameLayer = cc.Layer.extend({
            }
 
            this.setPosition(cc.p( - posicionXCamara , - posicionYCamara));
-           // actualizar cámara (posición de la capa).
-           /*var posicionXJugador = this.jugador.body.p.x - 100;
-           var posicionYJugador = this.jugador.body.p.y - 25;
-           this.setPosition(cc.p( -posicionXJugador,-posicionYJugador));*/
+
 
 
            // Caída, sí cae vuelve a la posición inicial
             if( this.jugador.body.p.y < -100){
-               this.jugador.body.p = cc.p(50,150);
+               cc.director.pause();
+               cc.runScene(new GameOverLayer);
             }
             // Eliminar formas:
             for(var i = 0; i < this.formasEliminar.length; i++) {
@@ -260,15 +259,19 @@ var GameLayer = cc.Layer.extend({
                   capaControles.agregarMoneda();
 
       },collisionJugadorConEnemigo:function (arbiter, space) {
+            var capaControles = this.getParent().getChildByTag(idCapaControles);
             this.jugador.restaVida();
             var shapes = arbiter.getShapes();
             this.formasEliminar.push(shapes[1]);
-            if(this.jugador.vidas<0){
-                this.jugador.body.p = cc.p(50,150);
-                this.jugador.vidas = 1;
+            if(this.jugador.vidas<=0){
+                cc.director.pause();
+                cc.director.runScene(new GameOverLayer());
             }
+            capaControles.actualizarVidas(this.jugador.vidas);
       },collisionJugadorConMeta:function (arbiter, space){
-            this.jugador.body.p = cc.p(50,150);
+            nivelActual++;
+            cc.director.pause();
+            cc.director.runScene(new GameWinLayer());
       },collisionEnemigoConMuro:function (arbiter, space){
 
       }
@@ -281,6 +284,7 @@ var idCapaControles = 2;
 var GameScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
+        cc.director.resume();
         var layer = new GameLayer();
         this.addChild(layer, 0, idCapaJuego);
 
