@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="500" height="20" tilewidth="32" tileheight="32" nextobjectid="66">
+ <tileset firstgid="1" name="tiles32" tilewidth="32" tileheight="32" tilecount="98" columns="14">
+  <image source="tiles32.png" width="448" height="224"/>
+ </tileset>
+ <layer name="PatronesFondo" width="500" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztwwEJAAAMBKGL+P3TDJZDwVVTVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/AYwTNbU=
+  </data>
+ </layer>
+ <layer name="PatronesTerreno" width="500" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzt2lELgjAUgNG91WtE/f+fahGCibM5xV3zHLgve5lM8EM0JQAAAAAAAAAAAAAAAAAAACCK62vumbk0vC4AoMy75c+U7/kjaToAceR6NZyz+dVyTQcgGj3/VtpyTQeAj+H36QiWtlzTAVhjqoO5d+qo/26N29labcs1HYAafXduqbzn0Voz99/4kSfaOQMQ07jlpT2P1Jq178HRJ8o5AxDTVMuX9DxCa/695VHOGYCY5jrYK11v1ZqztHzuHgFwLjWtKF3fqketG3mkyWm1LwD7qHlml65v1YXWjTzS5LTaF4B9dMyzMFg=
+  </data>
+ </layer>
+ <objectgroup name="Suelos">
+  <object id="3" x="0" y="572.727">
+   <polyline points="0,0 124.242,3.0303 287.879,-157.576 348.485,-157.576 351.515,63.6364"/>
+  </object>
+  <object id="8" x="415.152" y="639.394">
+   <polyline points="0,0 0,-224.242 127.273,-224.242 127.273,-3.0303"/>
+  </object>
+  <object id="9" x="609.091" y="636.364">
+   <polyline points="0,0 -3.0303,-224.242 24.2424,-224.242 184.848,-60.6061 539.394,-60.6061 542.424,0"/>
+  </object>
+  <object id="19" x="864" y="322">
+   <polyline points="0,0 2,60 286,60 288,-4 -2,-2"/>
+  </object>
+  <object id="20" x="1309.09" y="633.333">
+   <polyline points="0,0 3.0303,-54.5455 378.788,-57.5758 578.788,-248.485 642.424,-248.485 645.455,-190.909 1078.79,-187.879 1669.7,-187.879 1857.58,-375.758 2048.48,-375.758 2336.36,-93.9394 2396.97,-90.9091 2400,3.0303"/>
+  </object>
+  <object id="21" x="3906.06" y="633.333">
+   <polyline points="0,0 -3.0303,-57.5758 766.667,-57.5758 766.667,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Monedas">
+  <object id="10" x="207" y="284" width="40" height="40"/>
+  <object id="12" x="282.758" y="244.606" width="40" height="40"/>
+  <object id="13" x="276.697" y="305.212" width="40" height="40"/>
+  <object id="14" x="459.424" y="241.364" width="40" height="40"/>
+  <object id="15" x="716.091" y="387.03" width="40" height="40"/>
+  <object id="16" x="852.455" y="244.606" width="40" height="40"/>
+  <object id="17" x="852.455" y="508.242" width="40" height="40"/>
+  <object id="22" x="1340.33" y="502.182" width="40" height="40"/>
+  <object id="23" x="1461.82" y="504.242" width="40" height="40"/>
+  <object id="24" x="1610.3" y="507.273" width="40" height="40"/>
+  <object id="25" x="1716.36" y="389.091" width="40" height="40"/>
+  <object id="26" x="1889.09" y="289.091" width="40" height="40"/>
+  <object id="27" x="2110.3" y="370.909" width="40" height="40"/>
+  <object id="28" x="2324" y="368" width="40" height="40"/>
+  <object id="29" x="2648" y="368" width="40" height="40"/>
+  <object id="30" x="2900" y="360" width="40" height="40"/>
+  <object id="31" x="3020" y="264" width="40" height="40"/>
+  <object id="32" x="3132" y="140" width="40" height="40"/>
+  <object id="33" x="3312" y="144" width="40" height="40"/>
+  <object id="34" x="3592" y="160" width="40" height="40"/>
+  <object id="35" x="3820" y="308" width="40" height="40"/>
+  <object id="36" x="4088" y="428" width="40" height="40"/>
+  <object id="37" x="4592" y="308" width="40" height="40"/>
+ </objectgroup>
+ <objectgroup name="Enemigos">
+  <object id="38" x="461" y="356" width="40" height="40"/>
+  <object id="39" x="992" y="192" width="40" height="40"/>
+  <object id="40" x="992" y="488" width="40" height="40"/>
+  <object id="41" x="1512" y="344" width="40" height="40"/>
+  <object id="42" x="2404" y="372" width="40" height="40"/>
+  <object id="43" x="3244" y="120" width="40" height="40"/>
+  <object id="44" x="3792" y="388" width="40" height="40"/>
+  <object id="45" x="4384" y="448" width="40" height="40"/>
+ </objectgroup>
+ <objectgroup name="Muros">
+  <object id="46" x="420" y="420">
+   <polyline points="0,0 4,-152"/>
+  </object>
+  <object id="47" x="536" y="420">
+   <polyline points="0,0 4,-148"/>
+  </object>
+  <object id="48" x="968" y="568">
+   <polyline points="0,0 -100,-116"/>
+  </object>
+  <object id="49" x="1052" y="576">
+   <polyline points="0,0 136,-124"/>
+  </object>
+  <object id="50" x="1148" y="320">
+   <polyline points="0,0 0,-188"/>
+  </object>
+  <object id="51" x="868" y="320">
+   <polyline points="0,0 -4,-196"/>
+  </object>
+  <object id="52" x="1340" y="580">
+   <polyline points="0,0 0,-320"/>
+  </object>
+  <object id="53" x="1688" y="576">
+   <polyline points="0,0 4,-332"/>
+  </object>
+  <object id="54" x="2320" y="452">
+   <polyline points="0,0 -4,-284"/>
+  </object>
+  <object id="55" x="2564" y="452">
+   <polyline points="0,0 0,-276"/>
+  </object>
+  <object id="56" x="3192" y="252">
+   <polyline points="0,0 -12,-200 164,-196 172,-12"/>
+  </object>
+  <object id="57" x="3592" y="480">
+   <polyline points="0,0 120,-200"/>
+  </object>
+  <object id="58" x="3836" y="284">
+   <polyline points="0,0 168,208"/>
+  </object>
+  <object id="59" x="4312" y="340">
+   <polyline points="0,0 -4,228"/>
+  </object>
+  <object id="60" x="4536" y="360">
+   <polyline points="0,0 -8,208"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Meta">
+  <object id="65" x="4672" y="560">
+   <polyline points="0,0 -1,-488"/>
+  </object>
+ </objectgroup>
+</map>
