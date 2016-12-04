@@ -123,7 +123,7 @@ var GameLayer = cc.Layer.extend({
            // Caída, sí cae vuelve a la posición inicial
             if( this.jugador.body.p.y < -100){
                cc.director.pause();
-               cc.runScene(new GameOverLayer);
+               cc.director.runScene(new GameOverLayer());
             }
             // Eliminar formas:
             for(var i = 0; i < this.formasEliminar.length; i++) {

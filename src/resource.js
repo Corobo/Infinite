@@ -17,6 +17,7 @@ var res = {
     animacion_cuervo_plist: "res/animacion_cuervo.plist",
     boton_siguiente_png : "res/boton_siguiente.png" ,
     boton_reanudar_png : "res/boton_reanudar.png",
+    boton_turbo_png : "res/boton_turbo.png"
 
 
 

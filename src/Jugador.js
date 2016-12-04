@@ -10,6 +10,7 @@ var Jugador = cc.Class.extend({
     shape:null,
     body:null,
     vidas:3,
+    usosTurbo:3,
 ctor:function (gameLayer, posicion) {
     this.gameLayer = gameLayer;
 
@@ -85,5 +86,10 @@ ctor:function (gameLayer, posicion) {
            }
     }, restaVida: function(){
         this.vidas--;
+    }, turbo: function(){
+        if(this.usosTurbo>0){
+            this.body.applyImpulse(cp.v(5000, 0), cp.v(0, 0));
+            this.usosTurbo--;
+        }
     }
 });

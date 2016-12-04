@@ -1,6 +1,7 @@
 
 var ControlesLayer = cc.Layer.extend({
     spriteBotonSaltar:null,
+    spriteBotonTurbo:null,
     etiquetaMonedas:null,
     etiquetaVidas:null,
     monedas:0,
@@ -20,13 +21,19 @@ var ControlesLayer = cc.Layer.extend({
         this.etiquetaVidas.fillStyle = new cc.Color(0, 0, 0, 0);
         this.addChild(this.etiquetaVidas);
 
-
         // BotonSaltar
         this.spriteBotonSaltar = cc.Sprite.create(res.boton_saltar_png);
         this.spriteBotonSaltar.setPosition(
             cc.p(size.width*0.8, size.height*0.5));
 
         this.addChild(this.spriteBotonSaltar);
+
+         // BotonTurbo
+         this.spriteBotonTurbo = cc.Sprite.create(res.boton_turbo_png);
+         this.spriteBotonTurbo.setPosition(
+                cc.p(size.width*0.8, size.height*0.8));
+
+         this.addChild(this.spriteBotonTurbo);
 
         // Registrar Mouse Down
         cc.eventManager.addListener({
@@ -41,6 +48,7 @@ var ControlesLayer = cc.Layer.extend({
     },procesarMouseDown:function(event) {
         var instancia = event.getCurrentTarget();
         var areaBoton = instancia.spriteBotonSaltar.getBoundingBox();
+        var areaTurbo = instancia.spriteBotonTurbo.getBoundingBox();
 
         // La pulsación cae dentro del botón
         if (cc.rectContainsPoint(areaBoton,
@@ -50,8 +58,11 @@ var ControlesLayer = cc.Layer.extend({
             var gameLayer = instancia.getParent().getChildByTag(idCapaJuego);
             // tenemos el objeto GameLayer
             gameLayer.jugador.saltar();
-
-
+        }
+        if (cc.rectContainsPoint(areaTurbo,
+            cc.p(event.getLocationX(), event.getLocationY()) )){
+            var gameLayer = instancia.getParent().getChildByTag(idCapaJuego);
+            gameLayer.jugador.turbo();
         }
     },agregarMoneda:function(){
           this.monedas++;
