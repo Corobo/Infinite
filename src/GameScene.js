@@ -4,6 +4,7 @@ var tipoMoneda = 3;
 var tipoMuro = 4;
 var tipoEnemigo = 5;
 var tipoMeta = 6;
+var tipoDisparo = 7;
 var nivelActual = 1;
 
 var GameLayer = cc.Layer.extend({
@@ -15,6 +16,7 @@ var GameLayer = cc.Layer.extend({
     mapaAncho: null,
     jugador: null,
     formasEliminar:[],
+    disparos:[],
     enemigos:[],
     ctor:function () {
         this._super();
@@ -24,6 +26,7 @@ var GameLayer = cc.Layer.extend({
         cc.spriteFrameCache.addSpriteFrames(res.jugador_subiendo_plist);
         cc.spriteFrameCache.addSpriteFrames(res.jugador_avanzando_plist);
         cc.spriteFrameCache.addSpriteFrames(res.animacion_cuervo_plist);
+        cc.spriteFrameCache.addSpriteFrames(res.disparo_plist);
 
         // Inicializar Space
          this.space = new cp.Space();
@@ -49,6 +52,10 @@ var GameLayer = cc.Layer.extend({
                          null, this.collisionJugadorConMeta.bind(this), null, null);
           this.space.addCollisionHandler(tipoEnemigo, tipoMuro,
                                    null, this.collisionEnemigoConMuro.bind(this), null, null);
+          this.space.addCollisionHandler(tipoDisparo, tipoEnemigo,
+                      null, this.colisionDisparoConEnemigo.bind(this), null, null);
+          this.space.addCollisionHandler(tipoDisparo, tipoSuelo,
+                     null, this.colisionDisparoConSuelo.bind(this), null, null);
         // Declarar emisor de particulas (parado)
           this._emitter =  new cc.ParticleGalaxy.create();
           this._emitter.setEmissionRate(0);
@@ -129,22 +136,30 @@ var GameLayer = cc.Layer.extend({
             for(var i = 0; i < this.formasEliminar.length; i++) {
                var shape = this.formasEliminar[i];
 
-               for (var i = 0; i < this.monedas.length; i++) {
-                 if (this.monedas[i].shape == shape) {
-                       this.monedas[i].eliminar();
-                       this.monedas.splice(i, 1);
+               for (var j = 0; j < this.monedas.length; j++) {
+                 if (this.monedas[j].shape == shape) {
+                       this.monedas[j].eliminar();
+                       this.monedas.splice(j, 1);
                  }
                }
-               for (var i = 0; i < this.enemigos.length; i++){
-                if(this.enemigos[i].shape == shape){
-                    this.enemigos[i].eliminar();
-                    this.enemigos.splice(i,1);
+               for (var j = 0; j < this.enemigos.length; j++){
+                if(this.enemigos[j].shape == shape){
+                    this.enemigos[j].eliminar();
+                    this.enemigos.splice(j,1);
                 }
+               }
+               for (var j = 0; j < this.disparos.length; j++) {
+                   if (this.disparos[j].shape == shape) {
+                       this.disparos[j].eliminar();
+                       this.disparos.splice(j, 1);
+                   }
                }
             }
             this.formasEliminar = [];
 
     }, cargarMapa:function () {
+         enemigos = [];
+         monedas = [];
          this.mapa = new cc.TMXTiledMap(res.mapa1_tmx);
          // Añadirlo a la Layer
          this.addChild(this.mapa);
@@ -274,6 +289,15 @@ var GameLayer = cc.Layer.extend({
             cc.director.runScene(new GameWinLayer());
       },collisionEnemigoConMuro:function (arbiter, space){
 
+      },colisionDisparoConEnemigo:function (arbiter, space) {
+             var shapes = arbiter.getShapes();
+
+             this.formasEliminar.push(shapes[1]);
+             this.formasEliminar.push(shapes[0]);
+      },colisionDisparoConSuelo:function (arbiter, space) {
+             var shapes = arbiter.getShapes();
+
+             this.formasEliminar.push(shapes[0]);
       }
 
 });

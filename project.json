@@ -19,7 +19,8 @@
         "src/ControlesLayer.js",
         "src/Enemigo.js",
         "src/GameWinLayer.js",
-        "src/GameOverLayer.js"
+        "src/GameOverLayer.js",
+        "src/Disparo.js"
 
 
 

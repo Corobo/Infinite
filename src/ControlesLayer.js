@@ -2,9 +2,11 @@
 var ControlesLayer = cc.Layer.extend({
     spriteBotonSaltar:null,
     spriteBotonTurbo:null,
+    spriteBotonDisparo:null,
     etiquetaMonedas:null,
     etiquetaVidas:null,
     monedas:0,
+    tiempoDisparar:0,
     ctor:function () {
         this._super();
         var size = cc.winSize;
@@ -35,6 +37,13 @@ var ControlesLayer = cc.Layer.extend({
 
          this.addChild(this.spriteBotonTurbo);
 
+         // BotonDisparo
+          this.spriteBotonDisparo = cc.Sprite.create(res.boton_disparar_png);
+          this.spriteBotonDisparo.setPosition(
+                 cc.p(size.width*0.8, size.height*0.2));
+
+          this.addChild(this.spriteBotonDisparo);
+
         // Registrar Mouse Down
         cc.eventManager.addListener({
             event: cc.EventListener.MOUSE,
@@ -49,6 +58,7 @@ var ControlesLayer = cc.Layer.extend({
         var instancia = event.getCurrentTarget();
         var areaBoton = instancia.spriteBotonSaltar.getBoundingBox();
         var areaTurbo = instancia.spriteBotonTurbo.getBoundingBox();
+        var areaDisparo = instancia.spriteBotonDisparo.getBoundingBox();
 
         // La pulsación cae dentro del botón
         if (cc.rectContainsPoint(areaBoton,
@@ -63,6 +73,17 @@ var ControlesLayer = cc.Layer.extend({
             cc.p(event.getLocationX(), event.getLocationY()) )){
             var gameLayer = instancia.getParent().getChildByTag(idCapaJuego);
             gameLayer.jugador.turbo();
+        }
+        if (cc.rectContainsPoint(areaDisparo,
+                        cc.p(event.getLocationX(), event.getLocationY()))
+                        && new Date().getTime() - instancia.tiempoDisparar > 1000 ){
+                instancia.tiempoDisparar = new Date().getTime();
+                var gameLayer = instancia.getParent().getChildByTag(idCapaJuego);
+                var disparo = new Disparo(gameLayer.space,
+                  cc.p(gameLayer.jugador.body.p.x, gameLayer.jugador.body.p.y),
+                  gameLayer);
+                  disparo.body.vx = 600;
+                gameLayer.disparos.push(disparo);
         }
     },agregarMoneda:function(){
           this.monedas++;
