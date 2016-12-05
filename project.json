@@ -20,7 +20,9 @@
         "src/Enemigo.js",
         "src/GameWinLayer.js",
         "src/GameOverLayer.js",
-        "src/Disparo.js"
+        "src/Disparo.js",
+        "src/EnemigoNuevo.js",
+        "src/EnemigoPincho.js"
 
 
 

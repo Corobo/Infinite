@@ -18,6 +18,8 @@ var GameLayer = cc.Layer.extend({
     formasEliminar:[],
     disparos:[],
     enemigos:[],
+    enemigosNuevos:[],
+    enemigosPincho:[],
     ctor:function () {
         this._super();
         var size = cc.winSize;
@@ -27,6 +29,7 @@ var GameLayer = cc.Layer.extend({
         cc.spriteFrameCache.addSpriteFrames(res.jugador_avanzando_plist);
         cc.spriteFrameCache.addSpriteFrames(res.animacion_cuervo_plist);
         cc.spriteFrameCache.addSpriteFrames(res.disparo_plist);
+        cc.spriteFrameCache.addSpriteFrames(res.animacion_bee_plist);
 
         // Inicializar Space
          this.space = new cp.Space();
@@ -154,6 +157,12 @@ var GameLayer = cc.Layer.extend({
                        this.disparos.splice(j, 1);
                    }
                }
+               for (var j = 0; j < this.enemigosNuevos.length; j++) {
+                  if (this.enemigosNuevos[j].shape == shape) {
+                      this.enemigosNuevos[j].eliminar();
+                      this.enemigosNuevos.splice(j, 1);
+                  }
+               }
             }
             this.formasEliminar = [];
 
@@ -253,6 +262,22 @@ var GameLayer = cc.Layer.extend({
 
              this.enemigos.push(enemigo);
          }
+         var grupoEnemigosNuevos = this.mapa.getObjectGroup("EnemigosNuevos");
+          var enemigosNuevosArray = grupoEnemigosNuevos.getObjects();
+          for (var i = 0; i < enemigosNuevosArray.length; i++) {
+              var enemigo = new EnemigoNuevo(this.space,
+                  cc.p(enemigosNuevosArray[i]["x"],enemigosNuevosArray[i]["y"]),this);
+
+              this.enemigosNuevos.push(enemigo);
+          }
+          var grupoEnemigosPinchos = this.mapa.getObjectGroup("EnemigosPinchos");
+            var enemigosPinchosArray = grupoEnemigosPinchos.getObjects();
+            for (var i = 0; i < enemigosPinchosArray.length; i++) {
+                var enemigo = new EnemigoPincho(this,
+                    cc.p(enemigosPinchosArray[i]["x"],enemigosPinchosArray[i]["y"]));
+
+                this.enemigosPincho.push(enemigo);
+          }
 
       },collisionSueloConJugador:function (arbiter, space) {
              this.jugador.tocaSuelo();
