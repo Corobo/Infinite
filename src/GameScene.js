@@ -5,6 +5,7 @@ var tipoMuro = 4;
 var tipoEnemigo = 5;
 var tipoMeta = 6;
 var tipoDisparo = 7;
+var tipoDisparoEnemigo = 8;
 var nivelActual = 1;
 
 var GameLayer = cc.Layer.extend({
@@ -18,6 +19,7 @@ var GameLayer = cc.Layer.extend({
     formasEliminar:[],
     disparos:[],
     enemigos:[],
+    nuevosEnemigos:[],
     ctor:function () {
         this._super();
         var size = cc.winSize;
@@ -54,8 +56,14 @@ var GameLayer = cc.Layer.extend({
                                    null, this.collisionEnemigoConMuro.bind(this), null, null);
           this.space.addCollisionHandler(tipoDisparo, tipoEnemigo,
                       null, this.colisionDisparoConEnemigo.bind(this), null, null);
+          this.space.addCollisionHandler(tipoDisparoEnemigo, tipoJugador,
+                                null, this.colisionDisparoConJugador.bind(this), null, null);
           this.space.addCollisionHandler(tipoDisparo, tipoSuelo,
                      null, this.colisionDisparoConSuelo.bind(this), null, null);
+          this.space.addCollisionHandler(tipoDisparoEnemigo, tipoSuelo,
+                               null, this.colisionDisparoConSuelo.bind(this), null, null);
+          this.space.addCollisionHandler(tipoEnemigo, tipoMuro,
+                     null, this.colisionEnemigoConContencion.bind(this), null, null);
         // Declarar emisor de particulas (parado)
           this._emitter =  new cc.ParticleGalaxy.create();
           this._emitter.setEmissionRate(0);
@@ -71,6 +79,12 @@ var GameLayer = cc.Layer.extend({
 
           for (var i = 0; i < this.enemigos.length; i++) {
                    this.enemigos[i].update(dt, this.jugador.body.p.x);
+          }
+          // Mover enemigos:
+          for(var i = 0; i < this.nuevosEnemigos.length; i++) {
+                var enemigo = this.nuevosEnemigos[i];
+                enemigo.moverAutomaticamente();
+                enemigo.disparar();
           }
 
           // Control de emisor de partículas
@@ -153,6 +167,12 @@ var GameLayer = cc.Layer.extend({
                        this.disparos[j].eliminar();
                        this.disparos.splice(j, 1);
                    }
+               }
+               for (var j = 0; j < this.nuevosEnemigos.length; j++) {
+                  if (this.nuevosEnemigos[j].shape == shape) {
+                      this.nuevosEnemigos[j].eliminar();
+                      this.nuevosEnemigos.splice(j, 1);
+                  }
                }
             }
             this.formasEliminar = [];
@@ -253,6 +273,14 @@ var GameLayer = cc.Layer.extend({
 
              this.enemigos.push(enemigo);
          }
+         var grupoNuevosEnemigos = this.mapa.getObjectGroup("NuevosEnemigos");
+         var enemigosNuevosArray = grupoNuevosEnemigos.getObjects();
+         for (var i = 0; i < enemigosNuevosArray.length; i++) {
+              var nuevoEnemigo = new NuevoEnemigo(this.space,
+                  cc.p(enemigosNuevosArray[i]["x"],enemigosNuevosArray[i]["y"]),this);
+
+              this.nuevosEnemigos.push(nuevoEnemigo);
+         }
 
       },collisionSueloConJugador:function (arbiter, space) {
              this.jugador.tocaSuelo();
@@ -298,8 +326,22 @@ var GameLayer = cc.Layer.extend({
              var shapes = arbiter.getShapes();
 
              this.formasEliminar.push(shapes[0]);
+      },colisionEnemigoConContencion:function(arbiter,space){
+             var shapes = arbiter.getShapes();
+             // shapes[0] es el enemigo
+             var formaEnemigo = shapes[0];
+             formaEnemigo.body.vx = 0; // Parar enemigo
+      },colisionDisparoConJugador:function (arbiter, space) {
+       var capaControles = this.getParent().getChildByTag(idCapaControles);
+       this.jugador.restaVida();
+       var shapes = arbiter.getShapes();
+       this.formasEliminar.push(shapes[0]);
+       if(this.jugador.vidas<=0){
+           cc.director.pause();
+           cc.director.runScene(new GameOverLayer());
+       }
+       capaControles.actualizarVidas(this.jugador.vidas);
       }
-
 });
 
 var idCapaJuego = 1;

@@ -19,7 +19,7 @@ var res = {
     boton_reanudar_png : "res/boton_reanudar.png",
     boton_turbo_png : "res/boton_turbo.png",
     boton_disparar_png : "res/boton_disparar.png",
-    disparo_plist : "res/disparo.plist"
+    disparo_plist : "res/disparo.plist",
 
 
 

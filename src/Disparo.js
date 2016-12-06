@@ -4,7 +4,7 @@
     body:null,
     shape:null,
     layer:null,
-ctor:function (space, posicion, layer) {
+ctor:function (space, posicion, layer,enemigo) {
     this.space = space;
     this.layer = layer;
 
@@ -37,7 +37,10 @@ ctor:function (space, posicion, layer) {
     // agregar forma dinamica
     this.shape.setSensor(true);
     this.space.addShape(this.shape);
-    this.shape.setCollisionType(tipoDisparo);
+    if(enemigo)
+        this.shape.setCollisionType(tipoDisparoEnemigo);
+    else
+        this.shape.setCollisionType(tipoDisparo);
     // añadir sprite a la capa
 
     // ejecutar la animación
