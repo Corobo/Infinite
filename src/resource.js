@@ -20,6 +20,8 @@ var res = {
     boton_turbo_png : "res/boton_turbo.png",
     boton_disparar_png : "res/boton_disparar.png",
     disparo_plist : "res/disparo.plist",
+    pinchos_png : "res/pinchos.png",
+    animacion_pinchos_plist : "res/pinchos.plist",
 
 
 

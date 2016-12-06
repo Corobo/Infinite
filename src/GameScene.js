@@ -6,6 +6,7 @@ var tipoEnemigo = 5;
 var tipoMeta = 6;
 var tipoDisparo = 7;
 var tipoDisparoEnemigo = 8;
+var tipoPincho = 9;
 var nivelActual = 1;
 
 var GameLayer = cc.Layer.extend({
@@ -20,6 +21,7 @@ var GameLayer = cc.Layer.extend({
     disparos:[],
     enemigos:[],
     nuevosEnemigos:[],
+    enemigosPinchos:[],
     ctor:function () {
         this._super();
         var size = cc.winSize;
@@ -29,6 +31,7 @@ var GameLayer = cc.Layer.extend({
         cc.spriteFrameCache.addSpriteFrames(res.jugador_avanzando_plist);
         cc.spriteFrameCache.addSpriteFrames(res.animacion_cuervo_plist);
         cc.spriteFrameCache.addSpriteFrames(res.disparo_plist);
+        cc.spriteFrameCache.addSpriteFrames(res.animacion_pinchos_plist);
 
         // Inicializar Space
          this.space = new cp.Space();
@@ -64,6 +67,8 @@ var GameLayer = cc.Layer.extend({
                                null, this.colisionDisparoConSuelo.bind(this), null, null);
           this.space.addCollisionHandler(tipoEnemigo, tipoMuro,
                      null, this.colisionEnemigoConContencion.bind(this), null, null);
+          this.space.addCollisionHandler(tipoJugador, tipoPincho,
+                        null, this.collisionJugadorConEnemigoPinchos.bind(this), null, null);
         // Declarar emisor de particulas (parado)
           this._emitter =  new cc.ParticleGalaxy.create();
           this._emitter.setEmissionRate(0);
@@ -281,6 +286,14 @@ var GameLayer = cc.Layer.extend({
 
               this.nuevosEnemigos.push(nuevoEnemigo);
          }
+         var grupoPinchos = this.mapa.getObjectGroup("EnemigosPinchos");
+          var enemigosPinchosArray = grupoPinchos.getObjects();
+          for (var i = 0; i < enemigosPinchosArray.length; i++) {
+               var enemigoPinchos = new EnemigoPinchos(this,
+                   cc.p(enemigosPinchosArray[i]["x"],enemigosPinchosArray[i]["y"]));
+
+               this.enemigosPinchos.push(enemigoPinchos);
+          }
 
       },collisionSueloConJugador:function (arbiter, space) {
              this.jugador.tocaSuelo();
@@ -341,6 +354,9 @@ var GameLayer = cc.Layer.extend({
            cc.director.runScene(new GameOverLayer());
        }
        capaControles.actualizarVidas(this.jugador.vidas);
+      },collisionJugadorConEnemigoPinchos:function(arbiter,space){
+            cc.director.pause();
+            cc.director.runScene(new GameOverLayer());
       }
 });
 
