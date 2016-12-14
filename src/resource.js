@@ -22,9 +22,22 @@ var res = {
     boton_disparar_png : "res/boton_disparar.png",
     boton_nivel1_png : "res/boton_nivel1.png",
     boton_nivel2_png : "res/boton_nivel2.png",
+    boton_plataformas_png : "res/boton_plataformas.png",
+    boton_infinite_png : "res/boton_infinite.png",
     disparo_plist : "res/disparo.plist",
     pinchos_png : "res/pinchos.png",
     animacion_pinchos_plist : "res/pinchos.plist",
+    playerrunright_png : "res/playerrunright.png",
+    playerrunright_plist : "res/playerrunright.plist",
+    playerjumpright_png : "res/playerjumpright.png",
+    playerjumpright_plist : "res/playerjumpright.plist",
+    playeridleright_png : "res/playeridleright.png",
+    playeridleright_plist : "res/playeridleright.plist",
+    playerdieright_png : "res/playerdieright.png",
+    playerdieright_plist : "res/playerdieright.plist",
+    disparo_png : "res/disparo.png",
+    playershootright_png : "res/playershootright.png",
+    playershootright_plist : "res/playershootright.plist",
 
 
 

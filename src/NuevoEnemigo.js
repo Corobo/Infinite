@@ -5,7 +5,7 @@ var NuevoEnemigo = cc.Class.extend({
     shape:null,
     layer:null,
     tiempoDisparo:0,
-ctor:function (space, posicion, layer) {
+ctor:function (space, posicion, layer,tipo) {
     this.space = space;
     this.layer = layer;
 
@@ -38,7 +38,10 @@ ctor:function (space, posicion, layer) {
         this.sprite.getContentSize().height);
     // agregar forma dinamica
     this.space.addShape(this.shape);
-    this.shape.setCollisionType(tipoEnemigo);
+    if(tipo=="Infinite")
+        this.shape.setCollisionType(tipoEnemigo);
+    else
+        this.shape.setCollisionType(tipoEnemigoPlataformas)
     // añadir sprite a la capa
 
     // ejecutar la animación

@@ -3,7 +3,7 @@ var Moneda = cc.Class.extend({
     gameLayer:null,
     sprite:null,
     shape:null,
-ctor:function (gameLayer, posicion) {
+ctor:function (gameLayer, posicion, tipo) {
     this.gameLayer = gameLayer;
 
     // Crear animación
@@ -27,7 +27,10 @@ ctor:function (gameLayer, posicion) {
     var radio = this.sprite.getContentSize().width / 2;
     // forma
     this.shape = new cp.CircleShape(body, radio , cp.vzero);
-    this.shape.setCollisionType(tipoMoneda);
+    if(tipo=="Infinite")
+        this.shape.setCollisionType(tipoMoneda);
+    else
+        this.shape.setCollisionType(tipoMonedaPlataformas);
     // Nunca genera colisiones reales, es como un “fantasma”
     this.shape.setSensor(true);
     // forma estática

@@ -267,7 +267,7 @@ var GameLayer = cc.Layer.extend({
          var monedasArray = grupoMonedas.getObjects();
          for (var i = 0; i < monedasArray.length; i++) {
            var moneda = new Moneda(this,
-               cc.p(monedasArray[i]["x"],monedasArray[i]["y"]));
+               cc.p(monedasArray[i]["x"],monedasArray[i]["y"]),"Infinite");
            this.monedas.push(moneda);
          }
          var grupoEnemigos = this.mapa.getObjectGroup("Enemigos");
@@ -282,7 +282,7 @@ var GameLayer = cc.Layer.extend({
          var enemigosNuevosArray = grupoNuevosEnemigos.getObjects();
          for (var i = 0; i < enemigosNuevosArray.length; i++) {
               var nuevoEnemigo = new NuevoEnemigo(this.space,
-                  cc.p(enemigosNuevosArray[i]["x"],enemigosNuevosArray[i]["y"]),this);
+                  cc.p(enemigosNuevosArray[i]["x"],enemigosNuevosArray[i]["y"]),this,"Infinite");
 
               this.nuevosEnemigos.push(nuevoEnemigo);
          }

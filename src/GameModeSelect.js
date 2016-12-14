@@ -1,10 +1,8 @@
 
-var GameLevelLayer = cc.LayerColor.extend({
-    modo:null,
-    ctor:function (tipo) {
+var GameModeSelect = cc.LayerColor.extend({
+    ctor:function () {
         this._super();
         this.init();
-        this.modo = tipo;
     },
     init:function () {
         this._super(cc.color(0, 0, 0, 180));
@@ -12,8 +10,8 @@ var GameLevelLayer = cc.LayerColor.extend({
         var winSize = cc.director.getWinSize();
 
         var boton1 = new cc.MenuItemSprite(
-            new cc.Sprite(res.boton_nivel1_png),
-            new cc.Sprite(res.boton_nivel1_png),
+            new cc.Sprite(res.boton_plataformas_png),
+            new cc.Sprite(res.boton_plataformas_png),
             this.pulsarBoton1, this);
 
         var menu = new cc.Menu(boton1);
@@ -22,8 +20,8 @@ var GameLevelLayer = cc.LayerColor.extend({
         this.addChild(menu);
 
         var boton2 = new cc.MenuItemSprite(
-            new cc.Sprite(res.boton_nivel2_png),
-            new cc.Sprite(res.boton_nivel2_png),
+            new cc.Sprite(res.boton_infinite_png),
+            new cc.Sprite(res.boton_infinite_png),
             this.pulsarBoton2, this);
 
         var menu = new cc.Menu(boton2);
@@ -33,14 +31,9 @@ var GameLevelLayer = cc.LayerColor.extend({
     },
     pulsarBoton1:function (sender) {
         // Volver a ejecutar la escena Prinicpal
-        if(this.modo == "Plataformas")
-            cc.director.runScene(new GameScenePlataformas(1));
-        else
-            cc.director.runScene(new GameScene(1));
+        cc.director.runScene(new GameLevelLayer("Plataformas"));
     },pulsarBoton2:function (sender) {
-           if(this.modo == "Plataformas")
-               cc.director.runScene(new GameScenePlataformas(2));
-           else
-               cc.director.runScene(new GameScene(2));
+            // Volver a ejecutar la escena Prinicpal
+            cc.director.runScene(new GameLevelLayer("Infinite"));
     }
 });

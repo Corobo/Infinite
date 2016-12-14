@@ -23,7 +23,10 @@
         "src/Disparo.js",
         "src/NuevoEnemigo.js",
         "src/EnemigoPinchos.js",
-        "src/GameLevelLayer.js"
+        "src/GameLevelLayer.js",
+        "src/GameScenePlataformas.js",
+        "src/JugadorPlataformas.js",
+        "src/GameModeSelect.js"
 
 
 
