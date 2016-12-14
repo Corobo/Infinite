@@ -1,8 +1,10 @@
 
 var GameWinLayer = cc.LayerColor.extend({
-    ctor:function () {
+    nivelActual:null,
+    ctor:function (nivel) {
         this._super();
         this.init();
+        this.nivelActual=nivel;
     },
     init:function () {
         this._super(cc.color(0, 0, 0, 180));
@@ -21,6 +23,6 @@ var GameWinLayer = cc.LayerColor.extend({
     },
     pulsarReiniciar:function (sender) {
         // Volver a ejecutar la escena Prinicpal
-        cc.director.runScene(new GameScene());
+        cc.director.runScene(new GameScene(this.nivelActual));
     }
 });

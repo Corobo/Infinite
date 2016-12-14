@@ -25,7 +25,6 @@ var GameLayer = cc.Layer.extend({
     ctor:function () {
         this._super();
         var size = cc.winSize;
-
         cc.spriteFrameCache.addSpriteFrames(res.moneda_plist);
         cc.spriteFrameCache.addSpriteFrames(res.jugador_subiendo_plist);
         cc.spriteFrameCache.addSpriteFrames(res.jugador_avanzando_plist);
@@ -149,7 +148,7 @@ var GameLayer = cc.Layer.extend({
            // Caída, sí cae vuelve a la posición inicial
             if( this.jugador.body.p.y < -100){
                cc.director.pause();
-               cc.director.runScene(new GameOverLayer());
+               cc.director.runScene(new GameOverLayer(nivelActual));
             }
             // Eliminar formas:
             for(var i = 0; i < this.formasEliminar.length; i++) {
@@ -185,7 +184,8 @@ var GameLayer = cc.Layer.extend({
     }, cargarMapa:function () {
          enemigos = [];
          monedas = [];
-         this.mapa = new cc.TMXTiledMap(res.mapa1_tmx);
+         var nombreMapa = "res/mapa"+nivelActual+".tmx";
+         this.mapa = new cc.TMXTiledMap(nombreMapa);
          // Añadirlo a la Layer
          this.addChild(this.mapa);
          // Ancho del mapa
@@ -321,13 +321,13 @@ var GameLayer = cc.Layer.extend({
             this.formasEliminar.push(shapes[1]);
             if(this.jugador.vidas<=0){
                 cc.director.pause();
-                cc.director.runScene(new GameOverLayer());
+                cc.director.runScene(new GameOverLayer(nivelActual));
             }
             capaControles.actualizarVidas(this.jugador.vidas);
       },collisionJugadorConMeta:function (arbiter, space){
             nivelActual++;
             cc.director.pause();
-            cc.director.runScene(new GameWinLayer());
+            cc.director.runScene(new GameWinLayer(nivelActual));
       },collisionEnemigoConMuro:function (arbiter, space){
 
       },colisionDisparoConEnemigo:function (arbiter, space) {
@@ -351,12 +351,12 @@ var GameLayer = cc.Layer.extend({
        this.formasEliminar.push(shapes[0]);
        if(this.jugador.vidas<=0){
            cc.director.pause();
-           cc.director.runScene(new GameOverLayer());
+           cc.director.runScene(new GameOverLayer(nivelActual));
        }
        capaControles.actualizarVidas(this.jugador.vidas);
       },collisionJugadorConEnemigoPinchos:function(arbiter,space){
             cc.director.pause();
-            cc.director.runScene(new GameOverLayer());
+            cc.director.runScene(new GameOverLayer(nivelActual));
       }
 });
 
@@ -364,6 +364,10 @@ var idCapaJuego = 1;
 var idCapaControles = 2;
 
 var GameScene = cc.Scene.extend({
+    ctor:function(nivel){
+        this._super();
+        nivelActual = nivel;
+    },
     onEnter:function () {
         this._super();
         cc.director.resume();

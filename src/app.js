@@ -30,7 +30,7 @@ var MenuLayer = cc.Layer.extend({
 
         return true;
     }, pulsarBotonJugar : function(){
-               cc.director.runScene(new GameScene());
+               cc.director.runScene(new GameLevelLayer());
          }
 
 });
