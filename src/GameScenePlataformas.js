@@ -2,10 +2,11 @@
 var tipoJugadorPlataformas = 1;
 var tipoMonedaPlataformas = 2;
 var tipoEnemigoPlataformas = 3;
-var tipoContenedorPlataformas = 4;
+var tipoMuroPlataformas = 4;
 var tipoDisparoPlataformas = 5;
 var tipoSueloPlataformas = 6;
 var nivelActualPlataformas = 0;
+var nivelMaximoPlataformas = 2;
 
 var GameLayerPlataformas = cc.Layer.extend({
     monedas:0,
@@ -37,18 +38,9 @@ var GameLayerPlataformas = cc.Layer.extend({
         cc.spriteFrameCache.addSpriteFrames(res.disparo_plist);
         cc.spriteFrameCache.addSpriteFrames(res.playershootright_plist);
 
-
-
-        // Inicializar Space
         this.space = new cp.Space();
         this.space.gravity = cp.v(0, -350);
 
-        // Depuración
-        //this.depuracion = new cc.PhysicsDebugNode(this.space);
-        //this.addChild(this.depuracion, 10);
-
-        // jugador y moneda
-        // IMPORTANTE: Invocamos el método antes de resolver la colisión (realmente no habrá colisión).
         this.space.addCollisionHandler(tipoJugadorPlataformas, tipoMonedaPlataformas,
               null, this.colisionJugadorConMoneda.bind(this), null, null);
 
@@ -65,27 +57,16 @@ var GameLayerPlataformas = cc.Layer.extend({
         this.cargarMapa();
         this.scheduleUpdate();
 
-        // jugador y moneda
-        // IMPORTANTE: Invocamos el método antes de resolver la colisión (realmente no habrá colisión).
-        this.space.addCollisionHandler(tipoJugadorPlataformas, tipoMonedaPlataformas,
+
+      //Colisiones
+      this.space.addCollisionHandler(tipoJugadorPlataformas, tipoMonedaPlataformas,
               null, this.colisionJugadorConMoneda.bind(this), null, null);
-
-       // enemigo y contenedor
-       // IMPORTANTE: Invocamos el método antes de resolver la colisión (realmente no habrá colisión).
-       this.space.addCollisionHandler(tipoEnemigoPlataformas, tipoContenedorPlataformas,
-            null, this.colisionEnemigoConContenedor.bind(this), null, null);
-
-       // disparo y enemigo
-       // IMPORTANTE: Invocamos el método antes de resolver la colisión (realmente no habrá colisión).
-       this.space.addCollisionHandler(tipoDisparoPlataformas, tipoEnemigoPlataformas,
+      this.space.addCollisionHandler(tipoEnemigoPlataformas, tipoMuroPlataformas,
+            null, this.colisionEnemigoConMuro.bind(this), null, null);
+      this.space.addCollisionHandler(tipoDisparoPlataformas, tipoEnemigoPlataformas,
             null, this.colisionDisparoConEnemigo.bind(this), null, null);
-
-      // disparo y muro
-      // IMPORTANTE: Invocamos el método antes de resolver la colisión (realmente no habrá colisión).
       this.space.addCollisionHandler(tipoDisparoPlataformas, tipoSueloPlataformas,
            null, this.colisionDisparoConSuelo.bind(this), null, null);
-
-
 
 
        return true;
@@ -97,10 +78,10 @@ var GameLayerPlataformas = cc.Layer.extend({
 
      if ( capaControles.monedas >= 40){
         nivelActualPlataformas = nivelActualPlataformas + 1;
+        if(nivelMaximoPlataformas<nivelActualPlataformas)
+            nivelActualPlataformas=1;
         cc.director.runScene(new GameScenePlataformas(nivelActualPlataformas));
      }
-
-
 
       // Mover enemigos:
        for(var i = 0; i < this.enemigos.length; i++) {
@@ -108,7 +89,6 @@ var GameLayerPlataformas = cc.Layer.extend({
           enemigo.moverAutomaticamente();
       }
 
-      console.log("Formas eliminar: "+this.formasEliminar.length);
      // Eliminar formas:
      for(var i = 0; i < this.formasEliminar.length; i++) {
          var shape = this.formasEliminar[i];
@@ -122,7 +102,6 @@ var GameLayerPlataformas = cc.Layer.extend({
 
          for (var r = 0; r < this.enemigos.length; r++) {
             if (this.enemigos[r].shape == shape) {
-                console.log("Enemigo eliminado");
                 this.enemigos[r].eliminar();
                 this.enemigos.splice(r, 1);
             }
@@ -147,7 +126,7 @@ var GameLayerPlataformas = cc.Layer.extend({
         this.tiempoDisparar = new Date().getTime();
         var disparo = new Disparo(this.space,
           cc.p(this.jugador.body.p.x, this.jugador.body.p.y),
-          this);
+          this,false,"Plataformas");
 
           if ( this.jugador.sprite.scaleX > 0){
                disparo.body.vx = 400;
@@ -248,33 +227,32 @@ var GameLayerPlataformas = cc.Layer.extend({
                this,"Plataformas");
 
            this.enemigos.push(enemigo);
-           console.log("Enemigo agregado");
        }
 
 
 
 
-       var grupoContenedores = this.mapa.getObjectGroup("Muros");
-       var contenedoresArray = grupoContenedores.getObjects();
-       for (var i = 0; i < contenedoresArray.length; i++) {
-           var contenedor = contenedoresArray[i];
-           var puntos = contenedor.polylinePoints;
+       var grupoMuros = this.mapa.getObjectGroup("Muros");
+       var murosArray = grupoMuros.getObjects();
+       for (var i = 0; i < murosArray.length; i++) {
+           var muro = murosArray[i];
+           var puntos = muro.polylinePoints;
 
            for(var j = 0; j < puntos.length - 1; j++){
-               var bodyContenedor = new cp.StaticBody();
+               var bodyMuro = new cp.StaticBody();
 
-               var shapeContenedor = new cp.SegmentShape(bodyContenedor,
-                   cp.v(parseInt(contenedor.x) + parseInt(puntos[j].x),
-                       parseInt(contenedor.y) - parseInt(puntos[j].y)),
-                   cp.v(parseInt(contenedor.x) + parseInt(puntos[j + 1].x),
-                       parseInt(contenedor.y) - parseInt(puntos[j + 1].y)),
+               var shapeMuro = new cp.SegmentShape(bodyMuro,
+                   cp.v(parseInt(muro.x) + parseInt(puntos[j].x),
+                       parseInt(muro.y) - parseInt(puntos[j].y)),
+                   cp.v(parseInt(muro.x) + parseInt(puntos[j + 1].x),
+                       parseInt(muro.y) - parseInt(puntos[j + 1].y)),
                    5);
 
-               shapeContenedor.setSensor(true);
-               shapeContenedor.setCollisionType(tipoContenedorPlataformas);
-               shapeContenedor.setFriction(1);
+               shapeMuro.setSensor(true);
+               shapeMuro.setCollisionType(tipoMuroPlataformas);
+               shapeMuro.setFriction(1);
 
-               this.space.addStaticShape(shapeContenedor);
+               this.space.addStaticShape(shapeMuro);
            }
        }
     },teclaPulsada: function(keyCode, event){
@@ -298,7 +276,6 @@ var GameLayerPlataformas = cc.Layer.extend({
         }
     },teclaLevantada: function(keyCode, event){
         var instancia = event.getCurrentTarget();
-        console.log("Tecla Levantada "+keyCode);
         // Flecha izquierda
         if( keyCode == 37){
             instancia.teclaIzquierda = false;
@@ -327,7 +304,7 @@ var GameLayerPlataformas = cc.Layer.extend({
         var capaControles =
            this.getParent().getChildByTag(idCapaControles);
         capaControles.agregarMoneda();
-     },colisionEnemigoConContenedor:function (arbiter, space) {
+     },colisionEnemigoConMuro:function (arbiter, space) {
           var shapes = arbiter.getShapes();
           // shapes[0] es el enemigo
           var formaEnemigo = shapes[0];
@@ -357,7 +334,7 @@ var GameScenePlataformas = cc.Scene.extend({
         var layer = new GameLayerPlataformas();
         this.addChild(layer, 0, idCapaJuego);
 
-        var controlesLayer = new ControlesLayer();
+        var controlesLayer = new ControlesLayerPlataformas();
         this.addChild(controlesLayer, 0, idCapaControles);
 
     }

@@ -8,6 +8,7 @@ var tipoDisparo = 7;
 var tipoDisparoEnemigo = 8;
 var tipoPincho = 9;
 var nivelActual = 1;
+var nivelMaximo = 2;
 
 var GameLayer = cc.Layer.extend({
     _emitter: null,
@@ -326,6 +327,8 @@ var GameLayer = cc.Layer.extend({
             capaControles.actualizarVidas(this.jugador.vidas);
       },collisionJugadorConMeta:function (arbiter, space){
             nivelActual++;
+            if(nivelMaximo<nivelActual)
+              nivelActual=1;
             cc.director.pause();
             cc.director.runScene(new GameWinLayer(nivelActual));
       },collisionEnemigoConMuro:function (arbiter, space){

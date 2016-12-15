@@ -4,7 +4,6 @@
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/res/boton_jugar.png" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/res/menu_titulo.png" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/src/ControlesLayerPlataformas.js" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/src/Disparo.js" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/src/GameLevelLayer.js" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/src/GameModeSelect.js" charset="windows-1252" />

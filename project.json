@@ -26,7 +26,8 @@
         "src/GameLevelLayer.js",
         "src/GameScenePlataformas.js",
         "src/JugadorPlataformas.js",
-        "src/GameModeSelect.js"
+        "src/GameModeSelect.js",
+        "src/ControlesLayerPlataformas.js"
 
 
 

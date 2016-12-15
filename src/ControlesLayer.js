@@ -81,7 +81,7 @@ var ControlesLayer = cc.Layer.extend({
                 var gameLayer = instancia.getParent().getChildByTag(idCapaJuego);
                 var disparo = new Disparo(gameLayer.space,
                   cc.p(gameLayer.jugador.body.p.x, gameLayer.jugador.body.p.y),
-                  gameLayer,false);
+                  gameLayer,false,"Infinite");
                   disparo.body.vx = 600;
                 gameLayer.disparos.push(disparo);
         }
